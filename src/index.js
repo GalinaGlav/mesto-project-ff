@@ -1,3 +1,6 @@
+import './pages/index.css';
+import {initialCards} from './scripts/cards'
+
 const placesList = document.querySelector('.places__list');
 
 for (let i = 0; i < initialCards.length; i++) {
