@@ -1,5 +1,5 @@
 import './pages/index.css';
-import {initialCards} from './scripts/cards'
+import { initialCards } from './scripts/cards'
 
 const placesList = document.querySelector('.places__list');
 
@@ -30,3 +30,44 @@ function addCard(arrayElement, deleteCardCallback) {
 function deleteCard(card) {
     card.remove();
 }
+
+
+
+const editProfileBtn = document.querySelector('.profile__edit-button');
+const editProfileModal = document.querySelector('.popup_type_edit');
+addEventListenersForModal(editProfileBtn, editProfileModal);
+
+
+const addNewCardsBtn = document.querySelector('.profile__add-button');
+const newCardModal = document.querySelector('.popup_type_new-card');
+addEventListenersForModal(addNewCardsBtn, newCardModal);
+
+const closeModalClick = (evt) => {
+    if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
+        closeModal(modal);
+    }
+}
+
+const closeModalEsc =  (evt)=> {
+    if(evt.key === 'Escape') {
+        closeModal(modal);
+    }
+}
+
+function openModal(modal) {
+ modal.classList.add('popup_is-opened');   
+ modal.addEventListener('click', closeModalClick);
+ document.addEventListener('keydown', closeModalEsc);
+}
+
+function closeModal(modal) {
+    modal.classList.remove('popup_is-opened');
+    modal.removeEventListener('click', closeModal);
+    document.removeEventListener('keydown', closeModalEsc);
+    }
+
+function addEventListenersForModal(openBtn, modal) {
+    openBtn.addEventListener('click', () => openModal(modal));
+}
+
+
