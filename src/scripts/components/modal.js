@@ -8,11 +8,6 @@ function closeByEscape(evt) {
 export function openModal(modal) {
     modal.classList.add('popup_is-opened');
 
-    modal.addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('popup') || evt.target.classList.contains('popup__close')) {
-            closeModal(modal);
-        }
-    });
     document.addEventListener('keydown', closeByEscape)
 }
 

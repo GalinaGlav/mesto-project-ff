@@ -1,4 +1,3 @@
-import { openModal } from "./modal";
 
 export function createCard(cardInfo, deleteCardCallback, likeCardCallback, openImageCallback) {
     const cardTemplate = document.querySelector('#card-template').content;
@@ -11,9 +10,8 @@ export function createCard(cardInfo, deleteCardCallback, likeCardCallback, openI
     const cardTitle = card.querySelector('.card__title');
     cardTitle.textContent = cardInfo.name;
 
-    const imageModal = document.querySelector('.popup_type_image');
     cardImage.addEventListener('click', () => {
-        openImageCallback(imageModal, cardInfo);
+        openImageCallback(cardInfo);
     })
 
     const deleteButton = card.querySelector('.card__delete-button');
@@ -35,13 +33,4 @@ export function deleteCard(cardtarget) {
 
 export function likeCard(cardLikeBtn) {
     cardLikeBtn.classList.toggle('card__like-button_is-active');
-}
-
-export function openModalImage(modal, card) {
-    const image = modal.querySelector('.popup__image');
-    image.setAttribute('src', card.link);
-    image.setAttribute('alt', card.name);
-    const imageDescription = modal.querySelector('.popup__caption');
-    imageDescription.textContent = card.name;
-    openModal(modal);
 }
