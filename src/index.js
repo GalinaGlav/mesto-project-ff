@@ -19,9 +19,11 @@ editProfileForm.addEventListener('submit', submitEditProfileForm);
 
 const addNewCardsBtn = document.querySelector('.profile__add-button');
 const newCardModal = document.querySelector('.popup_type_new-card');
-addNewCardsBtn.addEventListener('click', () => openModal(newCardModal));
-
 const newPlaceForm = document.forms.new_place;
+addNewCardsBtn.addEventListener('click', () => {
+    newPlaceForm.reset();
+    openModal(newCardModal);
+});
 newPlaceForm.addEventListener('submit', submitNewPlaceForm);
 
 function renderCards(container, cards) {
@@ -70,7 +72,6 @@ function submitNewPlaceForm(evt) {
 
     initialCards.unshift(newCard);
 
-    renderCards(initialCards);
+    renderCards(placesList, initialCards);
     closeModal(newCardModal);
-    newPlaceForm.reset();
 }
