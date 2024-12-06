@@ -1,25 +1,10 @@
 import './pages/index.css';
 import { initialCards } from './scripts/cards'
-import { addCard, deleteCard,likeCard, openModalImage } from './scripts/components/card'
+import { createCard, deleteCard, likeCard, openModalImage } from './scripts/components/card'
 import { openModal, closeModal } from './scripts/components/modal'
 
 const placesList = document.querySelector('.places__list');
-// создание и добавление карточек на страницу
-function renderCards(array) {
-    while (placesList.firstChild) {
-        placesList.firstChild.remove()
-    }
-
-    for (let i = 0; i < array.length; i++) {
-        const card = addCard(array[i], deleteCard, likeCard, openModalImage);
-        placesList.append(card);
-    }
-}
-
-renderCards(initialCards);
-
-
-
+renderCards(placesList, initialCards);
 
 const editProfileBtn = document.querySelector('.profile__edit-button');
 const editProfileModal = document.querySelector('.popup_type_edit');
@@ -28,12 +13,28 @@ editProfileBtn.addEventListener('click', () => {
     openModal(editProfileModal);
 });
 
+const editProfileForm = document.forms.edit_profile;
+editProfileForm.addEventListener('submit', editProfileFormSubmit);
+
+
 const addNewCardsBtn = document.querySelector('.profile__add-button');
 const newCardModal = document.querySelector('.popup_type_new-card');
-
 addNewCardsBtn.addEventListener('click', () => openModal(newCardModal));
 
-//добавление имени профиля в модалку
+const newPlaceForm = document.forms.new_place;
+newPlaceForm.addEventListener('submit', newPlaceFormSubmit);
+
+function renderCards(container, cards) {
+    while (container.firstChild) {
+        container.firstChild.remove()
+    }
+
+    for (let i = 0; i < cards.length; i++) {
+        const card = createCard(cards[i], deleteCard, likeCard, openModalImage);
+        container.append(card);
+    }
+}
+
 function fillEditProfileModal() {
     const nameProfile = document.querySelector('.profile__title');
     const inputNameProfile = document.querySelector('.popup__input_type_name');
@@ -44,10 +45,7 @@ function fillEditProfileModal() {
     inputdescriptionProfile.value = descriptionProfile.textContent;
 }
 
-
-const editProfileForm = document.forms.edit_profile;
-
-function handleFormSubmit(evt) {
+function editProfileFormSubmit(evt) {
     evt.preventDefault();
 
     const nameValue = editProfileForm.querySelector('.popup__input_type_name').value;
@@ -59,18 +57,14 @@ function handleFormSubmit(evt) {
     closeModal(editProfileModal);
 }
 
-editProfileForm.addEventListener('submit', handleFormSubmit);
-
-const newPlaceForm = document.forms.new_place;
-
-function FormSubmit(evt) {
+function newPlaceFormSubmit(evt) {
     evt.preventDefault();
 
-    const cardNameInput = newPlaceForm.querySelector('.popup__input_type_card-name');
+    const cardName = newPlaceForm.querySelector('.popup__input_type_card-name');
     const cardUrl = newPlaceForm.querySelector('.popup__input_type_url');
 
     const newCard = {
-        name: cardNameInput.value,
+        name: cardName.value,
         link: cardUrl.value
     };
 
@@ -80,11 +74,3 @@ function FormSubmit(evt) {
     closeModal(newCardModal);
     newPlaceForm.reset();
 }
-
-newPlaceForm.addEventListener('submit', FormSubmit);
-
-
-
-
-
-
