@@ -14,7 +14,7 @@ editProfileBtn.addEventListener('click', () => {
 });
 
 const editProfileForm = document.forms.edit_profile;
-editProfileForm.addEventListener('submit', editProfileFormSubmit);
+editProfileForm.addEventListener('submit', submitEditProfileForm);
 
 
 const addNewCardsBtn = document.querySelector('.profile__add-button');
@@ -22,7 +22,7 @@ const newCardModal = document.querySelector('.popup_type_new-card');
 addNewCardsBtn.addEventListener('click', () => openModal(newCardModal));
 
 const newPlaceForm = document.forms.new_place;
-newPlaceForm.addEventListener('submit', newPlaceFormSubmit);
+newPlaceForm.addEventListener('submit', submitNewPlaceForm);
 
 function renderCards(container, cards) {
     while (container.firstChild) {
@@ -45,7 +45,7 @@ function fillEditProfileModal() {
     inputdescriptionProfile.value = descriptionProfile.textContent;
 }
 
-function editProfileFormSubmit(evt) {
+function submitEditProfileForm(evt) {
     evt.preventDefault();
 
     const nameValue = editProfileForm.querySelector('.popup__input_type_name').value;
@@ -57,7 +57,7 @@ function editProfileFormSubmit(evt) {
     closeModal(editProfileModal);
 }
 
-function newPlaceFormSubmit(evt) {
+function submitNewPlaceForm(evt) {
     evt.preventDefault();
 
     const cardName = newPlaceForm.querySelector('.popup__input_type_card-name');
