@@ -1,6 +1,7 @@
 import './pages/index.css';
-import { initialCards, addCard, deleteCard } from './scripts/cards'
-import { openModal, closeModal, addEventListenersForModal } from './scripts/modal'
+import { initialCards } from './scripts/cards'
+import { addCard, deleteCard,likeCard, openModalImage } from './scripts/components/card'
+import { openModal, closeModal } from './scripts/components/modal'
 
 const placesList = document.querySelector('.places__list');
 // создание и добавление карточек на страницу
@@ -10,11 +11,15 @@ function renderCards(array) {
     }
 
     for (let i = 0; i < array.length; i++) {
-        const card = addCard(array[i], deleteCard);
+        const card = addCard(array[i], deleteCard, likeCard, openModalImage);
         placesList.append(card);
     }
 }
+
 renderCards(initialCards);
+
+
+
 
 const editProfileBtn = document.querySelector('.profile__edit-button');
 const editProfileModal = document.querySelector('.popup_type_edit');
@@ -38,61 +43,48 @@ function fillEditProfileModal() {
     const descriptionProfile = document.querySelector('.profile__description');
     inputdescriptionProfile.value = descriptionProfile.textContent;
 }
-// //добавление описания  профиля в модалку
-// let inputdescriptionProfile = document.querySelector('.popup__input_type_description');
-// const descriptionProfile = document.querySelector('.profile__description');
-// inputdescriptionProfile.value = descriptionProfile.textContent;
-// кнопка отпрвки формы
-const submitBtn = document.querySelector('.popup__button');
-//выбираем поле ввода имени в форме
-// const nameProfileForm = document.edit - profile.popup__input_type_name;
-//проверяем написал ли пользователь что то
 
-// Находим форму в DOM
-// const formElement = document.querySelector('.popup__form');
-// Находим поля формы в DOM
-const form1 = document.forms.edit_profile;
-const nameInput = form1.querySelector('.popup__input_type_name');
-const jobInput = form1.querySelector('.popup__input_type_description');
 
-// Обработчик «отправки» формы, хотя пока
-// она никуда отправляться не будет
+const editProfileForm = document.forms.edit_profile;
+
 function handleFormSubmit(evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-    // Так мы можем определить свою логику отправки.
-    // О том, как это делать, расскажем позже.
+    evt.preventDefault();
 
-    // Получите значение полей jobInput и nameInput из свойства value
-    const nameValue = nameInput.value;
-    const descriptionValue = jobInput.value;
-    // Выберите элементы, куда должны быть вставлены значения полей
-    const nameProfile = document.querySelector('.profile__title');
-    const descriptionProfile = document.querySelector('.profile__description');
-    // Вставьте новые значения с помощью textContent
-    nameProfile.textContent = nameValue;
-    descriptionProfile.textContent = descriptionValue;
+    const nameValue = editProfileForm.querySelector('.popup__input_type_name').value;
+    const descriptionValue = editProfileForm.querySelector('.popup__input_type_description').value;
+
+    document.querySelector('.profile__title').textContent = nameValue;
+    document.querySelector('.profile__description').textContent = descriptionValue;
+
     closeModal(editProfileModal);
 }
 
-// Прикрепляем обработчик к форме:
-// он будет следить за событием “submit” - «отправка»
-form1.addEventListener('submit', handleFormSubmit);
+editProfileForm.addEventListener('submit', handleFormSubmit);
 
-const form2 = document.forms.new_place;
-const cardNameInput = form2.querySelector('.popup__input_type_card-name');
-const cardUrl = form2.querySelector('.popup__input_type_url');
+const newPlaceForm = document.forms.new_place;
 
 function FormSubmit(evt) {
-    evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-    const newCard = {};
-    const cardNameValue = cardNameInput.value;
-    const cardUrlValue = cardUrl.value;
-    newCard.name = cardNameValue;
-    newCard.link = cardUrlValue;
+    evt.preventDefault();
+
+    const cardNameInput = newPlaceForm.querySelector('.popup__input_type_card-name');
+    const cardUrl = newPlaceForm.querySelector('.popup__input_type_url');
+
+    const newCard = {
+        name: cardNameInput.value,
+        link: cardUrl.value
+    };
+
     initialCards.unshift(newCard);
+
     renderCards(initialCards);
     closeModal(newCardModal);
+    newPlaceForm.reset();
 }
 
-form2.addEventListener('submit', FormSubmit);
+newPlaceForm.addEventListener('submit', FormSubmit);
+
+
+
+
+
 
