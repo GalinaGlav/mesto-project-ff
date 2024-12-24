@@ -6,7 +6,38 @@
   border-radius: 50%;
   background-size: cover;
   background-position: center;
+}
+
+.hover-image {
+  opacity: 0;
+  height: 26px;
+  width: 26px;
+  position: absolute;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.edit-profile__image {
+  background-color: transparent;
+  border: none;
+  position: relative;
+  cursor: pointer;
   margin: 0 29px 0 0;
+  padding: 0;
+}
+
+.edit-profile__image:focus-visible {
+  outline: none;
+}
+
+.edit-profile__image:hover .profile__image {
+  opacity: 0.2;
+  transition: opacity 0.3s;
+}
+
+.edit-profile__image:hover .hover-image {
+  opacity: 1;
+  transition: opacity 0.3s;
 }
 
 @media screen and (max-width: 740px) {

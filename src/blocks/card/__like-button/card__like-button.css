@@ -18,3 +18,23 @@
 .card__like-button:hover {
   opacity: 0.6;
 }
+
+
+.like-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:3px
+}
+
+.counter-likes {
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 13px;
+line-height: 16px;
+text-align: center;
+color: #000000;
+}
+
