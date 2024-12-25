@@ -55,8 +55,8 @@ const submitProfileImgModal = evt => {
     evt.preventDefault();
     setBtnLoading(submitProfileImgModalBtn);
     editAvatarUser(profileImgUrlInput.value)
-        .then(() => {
-            profileImg.setAttribute('style', `background-image: url(${profileImgUrlInput.value})`);
+        .then(user => {
+            profileImg.setAttribute('style', `background-image: url(${user.avatar})`);
             closeModal(profileImgModal);
         }, rej => {
             alert(rej)
@@ -73,9 +73,9 @@ const submitProfileModal = evt => {
         name: profileTitleInput.value,
         about: profileDescrInput.value
     })
-        .then(() => {
-            profileTitle.textContent = profileTitleInput.value;
-            profileDescr.textContent = profileDescrInput.value;
+        .then((user) => {
+            profileTitle.textContent = user.name;
+            profileDescr.textContent = user.about;
             closeModal(profileModal);
         }, rej => {
             alert(rej)
@@ -184,10 +184,7 @@ imageModal.addEventListener('click', closeModalByClick(imageModal));
 
 enableValidation(validationConfig);
 
-Promise.all([
-    getUserInfo().catch(err => console.log(err)),
-    getCardsInfo().catch(err => console.log(err))
-])
+Promise.all([getUserInfo(), getCardsInfo()])
     .then(values => {
         const [user, cards] = values;
         profileTitle.textContent = user.name;
@@ -199,3 +196,4 @@ Promise.all([
             placesList.append(cardHtml);
         })
     })
+    .catch(err => console.log(err))
