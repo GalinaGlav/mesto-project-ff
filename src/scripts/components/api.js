@@ -46,7 +46,7 @@ export const addCardLike = (cardId) => {
     return handleResponse(fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
         headers: config.headers,
         method: 'PUT',
-    }))   
+    }))
 }
 
 export const removeCardLike = (cardId) => {

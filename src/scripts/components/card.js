@@ -35,7 +35,6 @@ export const createCard = (cardInfo, deleteCardCallback, updateCardLikeInfoCallb
 
 export const deleteCard = cardtarget => cardtarget.remove();
 
-//выставление информации о лайках
 export const setCardLikeInfo = (likeBtn, likesCounter, cardInfo, userId) => {
     const iLiked = cardInfo.likes.some((like) => like._id === userId);
     if (iLiked) {
@@ -43,7 +42,7 @@ export const setCardLikeInfo = (likeBtn, likesCounter, cardInfo, userId) => {
     } else {
         likeBtn.classList.remove('card__like-button_is-active');
     }
-
+    
     likesCounter.textContent = cardInfo.likes.length;
 }
 

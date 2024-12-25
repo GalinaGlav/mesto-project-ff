@@ -47,7 +47,6 @@ const validationConfig = {
 };
 
 // functions
-
 const setBtnLoading = btn => btn.textContent = 'Сохранение...';
 const removeBtnLoading = btn => btn.textContent = 'Сохранить';
 
@@ -131,7 +130,6 @@ const createCardLocal = (card, user) => {
             } else {
                 promise = addCardLike(card._id);
             }
-
             promise
                 .then((cardInfo) => {
                     setCardLikeInfo(likeBtn, likesCounter, cardInfo, user._id)
