@@ -1,4 +1,4 @@
-export const createCard = (cardInfo, deleteCardCallback, addCardLikeCallback, removeCardLikeCallback, openImageCallback, userId) => {
+export const createCard = (cardInfo, deleteCardCallback, updateCardLikeInfoCallback, openImageCallback, userId) => {
     const cardTemplate = document.querySelector('#card-template').content;
     const card = cardTemplate.querySelector('.card').cloneNode(true);
     const cardImage = card.querySelector('.card__image');
@@ -18,34 +18,32 @@ export const createCard = (cardInfo, deleteCardCallback, addCardLikeCallback, re
     } else {
         deleteButton.addEventListener('click', () => {
             deleteCardCallback(card);
-
         });
     }
 
-    const like = card.querySelector('.likes')
-    const likesCount = cardInfo.likes.length;
-    like.textContent = likesCount;
-
-    const iLiked = cardInfo.likes.some((item) => item._id === userId);
-
+    const likesCounter = card.querySelector('.likes')
     const likeBtn = card.querySelector('.card__like-button');
-    if (iLiked) {
-        likeBtn.classList.add('card__like-button_is-active');
-    }
+    setCardLikeInfo(likeBtn, likesCounter, cardInfo, userId);
 
-    likeBtn.addEventListener('click', (evt) => {
-        if (evt.target.classList.contains('card__like-button_is-active')) {
-            removeCardLikeCallback(likeBtn);
-            like.textContent = Number(like.textContent) - 1;
-        } else {
-            addCardLikeCallback(likeBtn);
-            like.textContent = Number(like.textContent) + 1;
-        }
+    likeBtn.addEventListener('click', () => {
+        const wasLiked = likeBtn.classList.contains('card__like-button_is-active');
+        updateCardLikeInfoCallback(wasLiked, likeBtn, likesCounter);
     });
 
     return card;
 }
 
 export const deleteCard = cardtarget => cardtarget.remove();
-export const likeCard = cardLikeBtn => cardLikeBtn.classList.add('card__like-button_is-active');
-export const removeLikeCard = cardLikeBtn => cardLikeBtn.classList.remove('card__like-button_is-active');
+
+//выставление информации о лайках
+export const setCardLikeInfo = (likeBtn, likesCounter, cardInfo, userId) => {
+    const iLiked = cardInfo.likes.some((like) => like._id === userId);
+    if (iLiked) {
+        likeBtn.classList.add('card__like-button_is-active');
+    } else {
+        likeBtn.classList.remove('card__like-button_is-active');
+    }
+
+    likesCounter.textContent = cardInfo.likes.length;
+}
+

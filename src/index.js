@@ -1,5 +1,5 @@
 import './pages/index.css';
-import { createCard, deleteCard, likeCard, removeLikeCard } from './scripts/components/card'
+import { createCard, deleteCard, setCardLikeInfo } from './scripts/components/card'
 import { openModal, closeModal } from './scripts/components/modal'
 import { clearValidation, enableValidation } from './scripts/components/validation'
 import { getUserInfo, getCardsInfo, editUserInfo, addNewCard, addCardLike, removeCardLike, deleteMyCard, editAvatarUser } from './scripts/components/api'
@@ -124,14 +124,18 @@ const createCardLocal = (card, user) => {
                 .then(() => deleteCard(cardTarget))
                 .catch(err => console.log(err));
         },
-        (btn) => {
-            addCardLike(card._id)
-                .then(() => likeCard(btn))
-                .catch(err => console.log(err));
-        },
-        (btn) => {
-            removeCardLike(card._id)
-                .then(() => removeLikeCard(btn))
+        (wasLiked, likeBtn, likesCounter) => {
+            let promise;
+            if (wasLiked) {
+                promise = removeCardLike(card._id);
+            } else {
+                promise = addCardLike(card._id);
+            }
+
+            promise
+                .then((cardInfo) => {
+                    setCardLikeInfo(likeBtn, likesCounter, cardInfo, user._id)
+                })
                 .catch(err => console.log(err));
         },
         openModalImage,
